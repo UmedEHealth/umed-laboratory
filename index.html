@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3498db">
+    <title>UMED - Laboratoire</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --umed-blue: #3498db;
+            --umed-dark-blue: #2980b9;
+            --umed-light-blue: #ebf5fb;
+        }
+
+        body {
+            background-color: var(--umed-light-blue);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.02);
+            padding: 0;
+            margin-bottom: 3px;
+            min-height: auto;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            width: auto;
+            padding: 0;
+            margin: 0;
+            line-height: 0;
+        }
+
+        .navbar .container {
+            justify-content: flex-start;
+            padding-left: 8px;
+            min-height: auto;
+        }
+
+        .navbar-brand img {
+            height: auto;
+            width: 110px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        /* Styles responsives pour la navbar */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 5px 0;
+            }
+
+            .navbar-brand img {
+                width: 90px;
+            }
+        }
+
+        .form-container {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-group {
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        /* Styles responsives pour mobile et tablette */
+        @media (max-width: 768px) {
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+                margin-bottom: 8px;
+                padding: 12px 15px;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+
+            .form-container {
+                padding: 15px;
+                margin-top: 10px;
+            }
+
+            .accordion-button {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+            }
+
+            .accordion-body {
+                padding: 15px;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .form-control,
+            .form-select {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .row {
+                margin-right: -8px;
+                margin-left: -8px;
+            }
+
+            .col-md-4,
+            .col-md-6,
+            .col-md-12 {
+                padding-right: 8px;
+                padding-left: 8px;
+            }
+
+            .container {
+                padding-right: 10px;
+                padding-left: 10px;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+                margin: 15px 0;
+            }
+        }
+
+        /* Styles spécifiques pour les tablettes */
+        @media (min-width: 576px) and (max-width: 768px) {
+            .btn-group {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .btn-group .btn {
+                margin-bottom: 0;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Styles pour les très petits écrans (smartphones) */
+        @media (max-width: 480px) {
+            .accordion-button {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+            }
+
+            .accordion-body {
+                padding: 12px 10px;
+            }
+
+            .form-label {
+                font-size: 0.85rem;
+            }
+
+            .form-control,
+            .form-select {
+                padding: 6px;
+                font-size: 0.85rem;
+            }
+
+            .page-title {
+                font-size: 1.2rem;
+                margin: 12px 0;
+            }
+
+            .row.mb-3 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 0.375rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding-right: 8px;
+                padding-left: 8px;
+            }
+
+            .analysis-section {
+                padding: 10px;
+            }
+
+            .checkbox-container label {
+                font-size: 0.85rem;
+            }
+        }
+
+        .btn-umed {
+            background-color: var(--umed-blue);
+            color: white !important;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-umed:hover,
+        .btn-umed.active {
+            background-color: var(--umed-dark-blue);
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-umed.active {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .required::after {
+            content: ' *';
+            color: red !important;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 2px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .form-select[size] {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid var(--umed-blue);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .form-select option {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+
+        .form-select option:hover {
+            background-color: var(--umed-light-blue);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--umed-blue);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        /* Styles pour les cases à cocher */
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .form-check-input:checked {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+
+        /* Style pour les sections d'analyses */
+        .analysis-section {
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .analysis-section h4,
+        .analysis-section h5 {
+            color: var(--umed-dark-blue);
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Style pour les options conditionnelles */
+        .conditional-options {
+            margin-left: 30px;
+            padding: 10px;
+            border-left: 3px solid var(--umed-blue);
+            display: none;
+        }
+
+        /* Style pour le titre de page */
+        .page-title {
+            color: var(--umed-dark-blue);
+            text-align: center;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        /* Style pour les titres des sections - simplifié */
+        .accordion-button {
+            color: var(--umed-dark-blue);
+            font-weight: 600;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            font-size: 1.1rem;
+            padding: 15px 20px;
+            border-radius: 5px !important;
+            margin-bottom: 3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, var(--umed-blue), var(--umed-dark-blue));
+            color: white;
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .accordion-button:hover {
+            background: linear-gradient(135deg, var(--umed-light-blue), #d6eaf8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .accordion-button:not(.collapsed):hover {
+            background: linear-gradient(135deg, var(--umed-dark-blue), #1f618d);
+        }
+
+        .accordion-item {
+            border: none;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-body {
+            padding: 30px;
+            background-color: white;
+        }
+
+        .accordion-header {
+            margin-bottom: 0;
+        }
+
+        /* Icônes directionnelles inspirées des select */
+        .accordion-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid currentColor;
+            background: none;
+            transition: transform 0.3s ease;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            transform: rotate(180deg);
+        }
+
+        .accordion-button.collapsed::after {
+            transform: rotate(0deg);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--umed-blue);
+            color: white;
+        }
+
+        .accordion-button:hover {
+            background: var(--umed-light-blue);
+        }
+
+        .accordion-button:not(.collapsed):hover {
+            background: var(--umed-dark-blue);
+        }
+
+        .accordion-item {
+            border: 1px solid #dee2e6;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .accordion-body {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .accordion-header {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAnIAAAJyCAIAAADPTLrCAAAACXBIWXMAAC65AAAuuQFP9mjDAAAAEXRFWHRUaXRsZQBQREYgQ3JlYXRvckFevCgAAAATdEVYdEF1dGhvcgBQREYgVG9vbHMgQUcbz3cwAAAALXpUWHREZXNjcmlwdGlvbgAACJnLKCkpsNLXLy8v1ytISdMtyc/PKdZLzs8FAG6fCPGXryy4AACTL0lEQVR42uy9iXccx30uev+uhARA2efFkuWc8068yMl9L/GW+05sWbJyc3K93tz3EtvhYHCvSTqxSC8SvYikrGhxRFHOtWQtJAcDzIA7CQIUCYIiAdKiAHDnTFe/r+pXVV3dM+geNIb79x0YHoHATHd11e/77b//FBMEQRAE0Sf8Jy4BQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgSKsEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIIgrRIEQRAEaZUgCIIgSKsEQRAEQZBWCYIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEQVolCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCIIgSKsEQRAEQVolCIIgCIK0ShAEQRCkVYIgCIIgrRIEQRAEaZUgCIIgCNIqQRAEQZBWCYIgCIK0ShAEQRAEaZUgCOK+gkq/UOGPgn9SKm7b/4rsT7r8IkFa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AAirAAAQVgEAIKwCAADCKgAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAAirnAIAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAADCKgAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAEBYBQCAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAAirAAAQVgEAIKwCAEBYBQAAhFUAAAirAAAQVgEAAGEVAADCKgAAhFUAAAirAACAsAoAAGEVAADCKgAAIKwCAEBYBQCAsAoAAGEVAAAQVgEAIKwCAEBYBQCAsAoAAAirAAD8n/K/al+GLJpHwYgAAAAASUVORK5CYII=" alt="UMED Logo">
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="page-title">Laboratoire d'Analyses Médicales</h1>
+
+        <!-- Decision Tree Section: Load Existing Patient Data -->
+        <div class="card mb-4" style="background: linear-gradient(135deg, #ebf5fb 0%, #d6eaf8 100%); border: 2px solid var(--umed-blue); box-shadow: 0 4px 15px rgba(52, 152, 219, 0.15);">
+            <div class="card-body">
+                <h5 class="card-title" style="color: var(--umed-dark-blue); font-weight: 600; border-bottom: 2px solid var(--umed-blue); padding-bottom: 10px; margin-bottom: 15px;">
+                    <i class="fas fa-folder-open"></i> Charger un dossier existant
+                </h5>
+                <p class="small mb-3" style="color: var(--umed-dark-blue);">
+                    <i class="fas fa-info-circle"></i> Selectionnez un patient et une date d'export pour modifier un dossier existant
+                </p>
+                <div class="row align-items-end">
+                    <div class="col-md-8">
+                        <label for="existing-patient-select" class="form-label" style="color: var(--umed-dark-blue); font-weight: 500;">
+                            <i class="fas fa-user"></i> Patient et Date d'Export
+                        </label>
+                        <select class="form-select" id="existing-patient-select" size="1" style="border: 2px solid var(--umed-blue);">
+                            <option value="" selected disabled>Cliquez sur "Actualiser" pour charger les dossiers</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-umed w-100" id="refresh-patients-btn" onclick="loadExistingPatients()">
+                            <i class="fas fa-sync-alt"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn w-100" id="load-patient-btn" onclick="loadSelectedPatient()" disabled 
+                                style="background-color: var(--umed-blue); color: white; border: none;">
+                            <i class="fas fa-download"></i> Charger
+                        </button>
+                    </div>
+                </div>
+                <div id="loading-indicator" class="mt-3" style="display: none;">
+                    <div class="spinner-border spinner-border-sm" role="status" style="color: var(--umed-blue);">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <span class="ms-2" style="color: var(--umed-dark-blue);">Chargement des dossiers...</span>
+                </div>
+                <div id="edit-mode-indicator" class="mt-3 alert alert-info" style="display: none; background-color: var(--umed-light-blue); border: 1px solid var(--umed-blue); color: var(--umed-dark-blue);">
+                    <i class="fas fa-edit"></i> <strong>Mode modification :</strong> Les modifications seront enregistrees dans le dossier existant (identifie par nom, prenom et date d'export)
+                </div>
+            </div>
+        </div>
+
+        <!-- Toutes les sections ensemble -->
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="accordion" id="mainAccordion">
+                        <!-- Section: Informations Patient -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPatient">
+                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePatient" aria-expanded="true"
+                                    aria-controls="collapsePatient">
+                                    Informations Patient
+                                </button>
+                            </h2>
+                            <div id="collapsePatient" class="accordion-collapse collapse show"
+                                aria-labelledby="headingPatient" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="patient-name" class="form-label">Nom du patient</label>
+                                                <input type="text" class="form-control" id="patient-name">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="patient-firstname" class="form-label">Prénom du
+                                                    patient</label>
+                                                <input type="text" class="form-control" id="patient-firstname">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="patient-dob" class="form-label">Date de naissance</label>
+                                                <input type="date" class="form-control" id="patient-dob"
+                                                    onchange="calculateAge()">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="patient-age" class="form-label">Âge</label>
+                                                <input type="number" class="form-control" id="patient-age" min="0"
+                                                    max="120" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="patient-gender" class="form-label">Sexe</label>
+                                                <select class="form-select" id="patient-gender">
+                                                    <option value="" selected disabled>Sélectionner</option>
+                                                    <option value="M">Masculin</option>
+                                                    <option value="F">Féminin</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="patient-address" class="form-label">Adresse du
+                                                    patient</label>
+                                                <textarea class="form-control" id="patient-address" rows="2"
+                                                    placeholder="Adresse complète"></textarea>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="prescripteur" class="form-label">Prescripteur</label>
+                                                <input type="text" class="form-control" id="prescripteur"
+                                                    placeholder="Dr Nom du médecin">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="sample-date" class="form-label">Date du prélèvement</label>
+                                                <input type="date" class="form-control" id="sample-date">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="sample-type" class="form-label">Type d'échantillon</label>
+                                                <select class="form-select" id="sample-type">
+                                                    <option value="sang" selected>Sang</option>
+                                                    <option value="urine">Urine</option>
+                                                    <option value="selles">Selles</option>
+                                                    <option value="autre">Autre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label for="patient-notes" class="form-label">Notes
+                                                    supplémentaires</label>
+                                                <textarea class="form-control" id="patient-notes" rows="3"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: Hématologie -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingHematologie">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseHematologie"
+                                    aria-expanded="false" aria-controls="collapseHematologie">
+                                    Hématologie
+                                </button>
+                            </h2>
+                            <div id="collapseHematologie" class="accordion-collapse collapse"
+                                aria-labelledby="headingHematologie" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="analysis-section">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="nfs">
+                                                        <label class="form-check-label" for="nfs">NFS (Numération
+                                                            Formule Sanguine)</label>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="nfs-observations" class="form-label">Observations
+                                                            NFS</label>
+                                                        <input type="text" class="form-control" id="nfs-observations"
+                                                            placeholder="Observations pour NFS">
+                                                    </div>
+
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="vs">
+                                                        <label class="form-check-label" for="vs">VS (Vitesse de
+                                                            Sédimentation)</label>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="vs-observations" class="form-label">Observations
+                                                            VS</label>
+                                                        <input type="text" class="form-control" id="vs-observations"
+                                                            placeholder="Observations pour VS">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="coagulation">
+                                                        <label class="form-check-label" for="coagulation">Bilan de
+                                                            Coagulation</label>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="coagulation-observations"
+                                                            class="form-label">Observations Coagulation</label>
+                                                        <input type="text" class="form-control"
+                                                            id="coagulation-observations"
+                                                            placeholder="Observations pour Coagulation">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: Parasitologie -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingParasitologie">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseParasitologie"
+                                    aria-expanded="false" aria-controls="collapseParasitologie">
+                                    Parasitologie
+                                </button>
+                            </h2>
+                            <div id="collapseParasitologie" class="accordion-collapse collapse"
+                                aria-labelledby="headingParasitologie" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="analysis-section">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5>Paludisme</h5>
+                                                    <div class="mb-3">
+                                                        <label for="palu-result" class="form-label">Résultat
+                                                            Paludisme</label>
+                                                        <select class="form-select" id="palu-result"
+                                                            onchange="toggleCommentaires('palu-result', 'palu-comments-container')">
+                                                            <option value="" selected disabled>Sélectionner</option>
+                                                            <option value="positif">Positif</option>
+                                                            <option value="negatif">Négatif</option>
+                                                        </select>
+                                                        <div id="palu-comments-container" class="mt-3"
+                                                            style="display: none;">
+                                                            <label for="palu-comments" class="form-label">Commentaires
+                                                                Paludisme</label>
+                                                            <textarea class="form-control" id="palu-comments"
+                                                                rows="2"></textarea>
+                                                        </div>
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="checkbox" id="show-palu-in-report" checked>
+                                                            <label class="form-check-label" for="show-palu-in-report">
+                                                                Afficher Paludisme dans le rapport
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: IMMUNO-HEMATOLOGIE -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingImmunoHematologie">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseImmunoHematologie"
+                                    aria-expanded="false" aria-controls="collapseImmunoHematologie">
+                                    Immuno-Hématologie
+                                </button>
+                            </h2>
+                            <div id="collapseImmunoHematologie" class="accordion-collapse collapse"
+                                aria-labelledby="headingImmunoHematologie" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="analysis-section">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h5>Groupe Sanguin</h5>
+                                                    <div class="mb-3">
+                                                        <label for="groupe-sanguin-result" class="form-label">Résultat
+                                                            Groupe Sanguin</label>
+                                                        <select class="form-select" id="groupe-sanguin-result">
+                                                            <option value="" selected disabled>Sélectionner</option>
+                                                            <option value="A+">A+</option>
+                                                            <option value="A-">A-</option>
+                                                            <option value="B+">B+</option>
+                                                            <option value="B-">B-</option>
+                                                            <option value="AB+">AB+</option>
+                                                            <option value="AB-">AB-</option>
+                                                            <option value="O+">O+</option>
+                                                            <option value="O-">O-</option>
+                                                        </select>
+                                                        <div class="mt-3">
+                                                            <label for="groupe-sanguin-comments"
+                                                                class="form-label">Commentaires Groupe Sanguin</label>
+                                                            <textarea class="form-control" id="groupe-sanguin-comments"
+                                                                rows="2"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sérologie Infectieuse -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSerologieInfectieuse">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseSerologieInfectieuse"
+                                    aria-expanded="false" aria-controls="collapseSerologieInfectieuse">
+                                    Sérologie Infectieuse
+                                </button>
+                            </h2>
+                            <div id="collapseSerologieInfectieuse" class="accordion-collapse collapse"
+                                aria-labelledby="headingSerologieInfectieuse" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="analysis-section">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h5>HIV</h5>
+                                                    <div class="mb-3">
+                                                        <label for="hiv-result" class="form-label">Résultat HIV</label>
+                                                        <select class="form-select" id="hiv-result"
+                                                            onchange="toggleCommentaires('hiv-result', 'hiv-comments-container')">
+                                                            <option value="" selected disabled>Sélectionner</option>
+                                                            <option value="positif">Positif</option>
+                                                            <option value="negatif">Négatif</option>
+                                                            <option value="indetermine">Indéterminé</option>
+                                                        </select>
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="checkbox" id="show-hiv-in-report">
+                                                            <label class="form-check-label" for="show-hiv-in-report">
+                                                                Afficher HIV dans le rapport
+                                                            </label>
+                                                        </div>
+                                                        <div id="hiv-comments-container" class="mt-3"
+                                                            style="display: none;">
+                                                            <label for="hiv-comments" class="form-label">Commentaires
+                                                                HIV</label>
+                                                            <textarea class="form-control" id="hiv-comments"
+                                                                rows="2"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bilan sanguin -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingBilanSanguin">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseBilanSanguin"
+                                    aria-expanded="false" aria-controls="collapseBilanSanguin">
+                                    Bilan sanguin
+                                </button>
+                            </h2>
+                            <div id="collapseBilanSanguin" class="accordion-collapse collapse"
+                                aria-labelledby="headingBilanSanguin" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form id="bilan-form" action="save_bilan.php" method="post"
+                                        enctype="multipart/form-data">
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-primary text-white">
+                                                <h5 class="mb-0">HÉMATOLOGIE</h5>
+                                                <small>Automate Zibio Z31</small>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Paramètres</th>
+                                                                <th>Résultats</th>
+                                                                <th>Valeur de référence</th>
+                                                                <th>Antécédent</th>
+                                                                <th>Valeur absolue</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Leucocytes (<em>Globules blancs</em>)</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="leucocytes"
+                                                                        name="leucocytes"
+                                                                        onchange="validateValue(this, 4, 10)">
+                                                                </td>
+                                                                <td>(4 - 10 giga/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="leucocytes-antecedent"
+                                                                        name="leucocytes-antecedent"></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hématies</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="globules-rouges"
+                                                                        name="globules-rouges"
+                                                                        onchange="validateValue(this, 4.5, 6)">
+                                                                </td>
+                                                                <td>(4,5 - 6 téra/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="globules-rouges-antecedent"
+                                                                        name="globules-rouges-antecedent"></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hémoglobine</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="hemoglobine" name="hemoglobine"
+                                                                        onchange="validateValue(this, 12, 18)">
+                                                                </td>
+                                                                <td>(12 - 18 g/dL)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="hemoglobine-antecedent"
+                                                                        name="hemoglobine-antecedent"></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hématocrite</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="hematocrite" name="hematocrite"
+                                                                        onchange="validateValue(this, 40, 54)">
+                                                                </td>
+                                                                <td>(40 - 54 %)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="hematocrite-antecedent"
+                                                                        name="hematocrite-antecedent"></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>VGM</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="vgm" name="vgm"
+                                                                        onchange="validateValue(this, 82, 98)">
+                                                                </td>
+                                                                <td>(82 - 98 fL)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="vgm-antecedent" name="vgm-antecedent"></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TCMH</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="tcmh" name="tcmh"
+                                                                        onchange="validateValue(this, 27, 32)">
+                                                                </td>
+                                                                <td>(27 - 32 pg)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="tcmh-antecedent" name="tcmh-antecedent">
+                                                                </td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>CCMH</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="ccmh" name="ccmh"
+                                                                        onchange="validateValue(this, 32, 36)">
+                                                                </td>
+                                                                <td>(32 - 36 g/dL)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="ccmh-antecedent" name="ccmh-antecedent">
+                                                                </td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Plaquettes</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="plaquettes" name="plaquettes"
+                                                                        onchange="validateValue(this, 150, 400)">
+                                                                </td>
+                                                                <td>(150 - 400 giga/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="plaquettes-antecedent"
+                                                                        name="plaquettes-antecedent"></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Polynucléaires neutrophiles</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="pnn" name="pnn"
+                                                                        onchange="validateValue(this, 1800, 7500)">
+                                                                </td>
+                                                                <td>(1800 - 7500)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="pnn-antecedent" name="pnn-antecedent"></td>
+                                                                <td><input type="number" step="1" class="form-control"
+                                                                        id="pnn-absolue" name="pnn-absolue" placeholder="/mm3"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Polynucléaires éosinophiles</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="pne" name="pne"
+                                                                        onchange="validateValue(this, 40, 800)">
+                                                                </td>
+                                                                <td>(40 - 800)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="pne-antecedent" name="pne-antecedent"></td>
+                                                                <td><input type="number" step="1" class="form-control"
+                                                                        id="pne-absolue" name="pne-absolue" placeholder="/mm3"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Polynucléaires basophiles</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="pnb" name="pnb"
+                                                                        onchange="validateValue(this, 0, 200)">
+                                                                </td>
+                                                                <td>(0 - 200)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="pnb-antecedent" name="pnb-antecedent"></td>
+                                                                <td><input type="number" step="1" class="form-control"
+                                                                        id="pnb-absolue" name="pnb-absolue" placeholder="/mm3"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lymphocytes</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="lymphocytes" name="lymphocytes"
+                                                                        onchange="validateValue(this, 1500, 4000)">
+                                                                </td>
+                                                                <td>(1500 - 4000)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="lymphocytes-antecedent"
+                                                                        name="lymphocytes-antecedent"></td>
+                                                                <td><input type="number" step="1" class="form-control"
+                                                                        id="lymphocytes-absolue" name="lymphocytes-absolue" placeholder="/mm3"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Monocytes</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="monocytes" name="monocytes"
+                                                                        onchange="validateValue(this, 200, 1000)">
+                                                                </td>
+                                                                <td>(200 - 1000)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="monocytes-antecedent"
+                                                                        name="monocytes-antecedent"></td>
+                                                                <td><input type="number" step="1" class="form-control"
+                                                                        id="monocytes-absolue" name="monocytes-absolue" placeholder="/mm3"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <label for="hematologie-comments"
+                                                        class="form-label">Commentaires</label>
+                                                    <textarea class="form-control" id="hematologie-comments"
+                                                        name="hematologie-comments" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Biochimie -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingBiochimie">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseBiochimie" aria-expanded="false"
+                                    aria-controls="collapseBiochimie">
+                                    Biochimie
+                                </button>
+                            </h2>
+                            <div id="collapseBiochimie" class="accordion-collapse collapse"
+                                aria-labelledby="headingBiochimie" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    <form id="biochimie-form" action="save_biochimie.php" method="post"
+                                        enctype="multipart/form-data">
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-primary text-white">
+                                                <h5 class="mb-0">BIOCHIMIE</h5>
+                                                <small>Examen réalisé par la méthode de la spectrophotométrie</small>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Paramètres</th>
+                                                                <th>Résultats</th>
+                                                                <th>Valeur de référence</th>
+                                                                <th>Antécédent</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Glycémie</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="glycemie-result"
+                                                                        name="glycemie-result"
+                                                                        onchange="validateValue(this, 0.7, 1.0)">
+                                                                </td>
+                                                                <td>(0.70 - 1.00 g/L ou 3.9 - 5.6 mmol/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="glycemie-antecedent"
+                                                                        name="glycemie-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Urée</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="uree-result"
+                                                                        name="uree-result"
+                                                                        onchange="validateValue(this, 0.15, 0.45)">
+                                                                </td>
+                                                                <td>(0.15 - 0.45 g/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="uree-antecedent" name="uree-antecedent">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Créatinine</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="creatinine-result"
+                                                                        name="creatinine-result"
+                                                                        onchange="validateValue(this, 5, 13)">
+                                                                </td>
+                                                                <td>(H: 7-13, F: 5-12 mg/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="creatinine-antecedent"
+                                                                        name="creatinine-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>ASAT</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="asat-result"
+                                                                        name="asat-result"
+                                                                        onchange="validateValue(this, 0, 45)">
+                                                                </td>
+                                                                <td>(H: <45, F: <35 UI/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="asat-antecedent" name="asat-antecedent">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>ALAT</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="alat-result"
+                                                                        name="alat-result"
+                                                                        onchange="validateValue(this, 0, 45)">
+                                                                </td>
+                                                                <td>(H: <45, F: <35 UI/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="alat-antecedent" name="alat-antecedent">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>GGT</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="ggt-result"
+                                                                        name="ggt-result"
+                                                                        onchange="validateValue(this, 0, 55)">
+                                                                </td>
+                                                                <td>(H: <55, F: <38 UI/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="ggt-antecedent" name="ggt-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Cholestérol</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="cholesterol-result"
+                                                                        name="cholesterol-result"
+                                                                        onchange="validateValue(this, 0, 2.0)">
+                                                                </td>
+                                                                <td>(<2.0 g/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="cholesterol-antecedent"
+                                                                        name="cholesterol-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Triglycérides</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="triglycerides-result"
+                                                                        name="triglycerides-result"
+                                                                        onchange="validateValue(this, 0.4, 1.7)">
+                                                                </td>
+                                                                <td>(0.4 - 1.7 g/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="triglycerides-antecedent"
+                                                                        name="triglycerides-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>HDL Cholestérol</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="hdl-result"
+                                                                        name="hdl-result"
+                                                                        onchange="validateValue(this, 0.6, 999)">
+                                                                </td>
+                                                                <td>(>0.60 g/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="hdl-antecedent" name="hdl-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>LDL Cholestérol</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01"
+                                                                        class="form-control" id="ldl-result"
+                                                                        name="ldl-result"
+                                                                        onchange="validateValue(this, 0, 1.0)">
+                                                                </td>
+                                                                <td>(<1.0 g/L, Alerte:>1.6)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="ldl-antecedent" name="ldl-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Acide Urique</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="acide-urique-result"
+                                                                        name="acide-urique-result"
+                                                                        onchange="validateValue(this, 25, 70)">
+                                                                </td>
+                                                                <td>(H: 30-70, F: 25-60 mg/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="acide-urique-antecedent"
+                                                                        name="acide-urique-antecedent"></td>
+                                                            </tr>
+                                                            <tr id="crp-row">
+                                                                <td>Protéine C-réactive (CRP)</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="crp-result" name="crp-result"
+                                                                        onchange="validateValue(this, 0, 5)">
+                                                                </td>
+                                                                <td>(<5 mg/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="crp-antecedent" name="crp-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sodium (Na+)</td>
+                                                                <td>
+                                                                    <input type="number" step="0.1" class="form-control"
+                                                                        id="sodium-result" name="sodium-result"
+                                                                        onchange="validateValue(this, 136, 145)">
+                                                                </td>
+                                                                <td>(136-145 mmol/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="sodium-antecedent" name="sodium-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Potassium (K+)</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01" class="form-control"
+                                                                        id="potassium-result" name="potassium-result"
+                                                                        onchange="validateValue(this, 3.4, 4.5)">
+                                                                </td>
+                                                                <td>(3.4-4.5 mmol/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="potassium-antecedent" name="potassium-antecedent"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Chlore (Cl-)</td>
+                                                                <td>
+                                                                    <input type="number" step="1" class="form-control"
+                                                                        id="chlore-result" name="chlore-result"
+                                                                        onchange="validateValue(this, 98, 107)">
+                                                                </td>
+                                                                <td>(98-107 mmol/L)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="chlore-antecedent" name="chlore-antecedent"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <label for="biochimie-comments"
+                                                        class="form-label">Commentaires</label>
+                                                    <textarea class="form-control" id="biochimie-comments"
+                                                        name="biochimie-comments" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goutte Épaisse -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingGoutteEpaisse">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseGoutteEpaisse" aria-expanded="false"
+                                    aria-controls="collapseGoutteEpaisse">
+                                    <i class="fas fa-microscope me-2"></i>GOUTTE ÉPAISSE
+                                </button>
+                            </h2>
+                            <div id="collapseGoutteEpaisse" class="accordion-collapse collapse"
+                                aria-labelledby="headingGoutteEpaisse" data-bs-parent="#analysisAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0">GOUTTE ÉPAISSE</h5>
+                                                <small>Examen du frottis sanguin coloré au MGG</small>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="goutte-epaisse-result" class="form-label">Recherche</label>
+                                                        <select class="form-select" id="goutte-epaisse-result" name="goutte-epaisse-result">
+                                                            <option value="">Sélectionner...</option>
+                                                            <option value="positive">Recherche positive</option>
+                                                            <option value="negative">Recherche négative</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-12">
+                                                        <label for="goutte-epaisse-conclusion" class="form-label">Conclusion</label>
+                                                        <textarea class="form-control" id="goutte-epaisse-conclusion" 
+                                                                name="goutte-epaisse-conclusion" rows="3"
+                                                                placeholder="Résultat contrôlé. À confronter aux données cliniques. En cas de discordance, faire un contrôle sur un nouveau prélèvement."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sérologie des Arboviroses -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSerologieArboviroses">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseSerologieArboviroses" aria-expanded="false"
+                                    aria-controls="collapseSerologieArboviroses">
+                                    <i class="fas fa-virus me-2"></i>SÉROLOGIE DES ARBOVIROSES
+                                </button>
+                            </h2>
+                            <div id="collapseSerologieArboviroses" class="accordion-collapse collapse"
+                                aria-labelledby="headingSerologieArboviroses" data-bs-parent="#analysisAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0">SÉROLOGIE DES ARBOVIROSES</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Test</th>
+                                                                <th>Résultat</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Ac anti DENGUE: IgG</td>
+                                                                <td>
+                                                                    <select class="form-select" id="dengue-igg-result" name="dengue-igg-result">
+                                                                        <option value="">Sélectionner...</option>
+                                                                        <option value="positive">Recherche positive</option>
+                                                                        <option value="negative">Recherche négative</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Ac anti DENGUE: IgM</td>
+                                                                <td>
+                                                                    <select class="form-select" id="dengue-igm-result" name="dengue-igm-result">
+                                                                        <option value="">Sélectionner...</option>
+                                                                        <option value="positive">Recherche positive</option>
+                                                                        <option value="negative">Recherche négative</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Antigène DENGUE</td>
+                                                                <td>
+                                                                    <select class="form-select" id="dengue-antigene-result" name="dengue-antigene-result">
+                                                                        <option value="">Sélectionner...</option>
+                                                                        <option value="positive">Recherche positive</option>
+                                                                        <option value="negative">Recherche négative</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-12">
+                                                        <label for="serologie-dengue-conclusion" class="form-label">Conclusion</label>
+                                                <textarea class="form-control" id="serologie-dengue-conclusion"
+                                                    name="serologie-dengue-conclusion" rows="3"
+                                                    placeholder="Saisir votre conclusion ici..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check mt-2">
+                                                    <input class="form-check-input" type="checkbox" id="show-dengue-in-report" checked>
+                                                    <label class="form-check-label" for="show-dengue-in-report">
+                                                        Afficher Dengue dans le rapport
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Examens Spécialisés -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingExamensSpecialises">
+                                <button class="accordion-button collapsed fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseExamensSpecialises" aria-expanded="false"
+                                    aria-controls="collapseExamensSpecialises">
+                                    <i class="fas fa-flask me-2"></i>EXAMENS SPÉCIALISÉS
+                                </button>
+                            </h2>
+                            <div id="collapseExamensSpecialises" class="accordion-collapse collapse"
+                                aria-labelledby="headingExamensSpecialises" data-bs-parent="#analysisAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0">EXAMENS SPÉCIALISÉS</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Paramètre</th>
+                                                                <th>Résultat</th>
+                                                                <th>Valeur de référence</th>
+                                                                <th>Antécédent</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Procalcitonine</td>
+                                                                <td>
+                                                                    <input type="number" step="0.01" class="form-control"
+                                                                        id="procalcitonine-result" name="procalcitonine-result"
+                                                                        onchange="validateValue(this, 0, 0.05)">
+                                                                </td>
+                                                                <td>(<0.05 ng/ml)</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="procalcitonine-antecedent" name="procalcitonine-antecedent"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bouton Enregistrer final -->
+                        <div class="d-flex justify-content-center mt-4 mb-5">
+                            <button type="button" class="btn btn-umed btn-lg" id="saveAllButton">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour affichage des images -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Aperçu de l'image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" class="img-fluid" style="max-width: 100%; max-height: 70vh;"
+                        alt="Image agrandie">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fonction pour afficher l'image dans une modal
+        function showImageModal(imageSrc, imageTitle) {
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('imageModalLabel');
+
+            modalImage.src = imageSrc;
+            modalTitle.textContent = imageTitle;
+
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            imageModal.show();
+        }
+
+        // Fonction pour prévisualiser l'image
+        function previewImage(inputId, previewId) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const container = document.getElementById(previewId + '-container');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    container.style.display = 'block';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                // Réinitialiser l'aperçu si aucun fichier n'est sélectionné
+                if (container) {
+                    container.style.display = 'none';
+                }
+            }
+        }
+
+        // Fonction pour afficher/masquer les commentaires
+        function toggleCommentaires(selectId, containerId) {
+            const select = document.getElementById(selectId);
+            const container = document.getElementById(containerId);
+
+            if (select.value === 'positif' || select.value === 'indetermine') {
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // Fonction de validation désactivée - plus de mise en rouge
+        function validateValue(input, min, max) {
+            // Fonction désactivée - plus de validation des valeurs
+            console.log('Validation désactivée pour:', input.id);
+            // Ne rien faire - pas de changement de couleur
+        }
+
+        // Fonction pour collecter toutes les données du formulaire
+        function collectFormData() {
+            // Calculer l'âge à partir de la date de naissance
+            const dateNaissance = document.getElementById('patient-dob').value;
+            if (dateNaissance) {
+                const ageCalcule = calculateAge(dateNaissance);
+                if (ageCalcule) {
+                    document.getElementById('patient-age').value = ageCalcule;
+                }
+            }
+
+            // Log pour debug
+            console.log('=== COLLECT FORM DATA ===');
+            console.log('isEditMode:', isEditMode);
+            console.log('editingPatientInfo:', editingPatientInfo);
+            
+            const formData = {
+                // Informations générales
+                // En mode édition, conserver la date d'export originale
+                dateExport: isEditMode && editingPatientInfo ? editingPatientInfo.dateExport : new Date().toLocaleDateString('fr-FR'),
+                heureExport: new Date().toLocaleTimeString('fr-FR'),
+                reference: 'UMED-' + Date.now(),
+
+                // Informations patient
+                patientNom: document.getElementById('patient-name').value,
+                patientPrenom: document.getElementById('patient-firstname').value,
+                patientAge: document.getElementById('patient-age').value,
+                patientDateNaissance: document.getElementById('patient-dob').value,
+                patientSexe: document.getElementById('patient-gender').value,
+                patientAdresse: document.getElementById('patient-address').value,
+                prescripteur: document.getElementById('prescripteur').value,
+                datePrelevement: document.getElementById('sample-date').value,
+                typeEchantillon: document.getElementById('sample-type').value,
+                notesSupplementaires: document.getElementById('patient-notes').value,
+
+                // Hématologie - Analyses demandées
+                nfs: document.getElementById('nfs').checked,
+                nfsObservations: document.getElementById('nfs-observations').value,
+                vs: document.getElementById('vs').checked,
+                vsObservations: document.getElementById('vs-observations').value,
+                coagulation: document.getElementById('coagulation').checked,
+                coagulationObservations: document.getElementById('coagulation-observations').value,
+
+                // Hématologie - Résultats (compatibles avec le rapport et Google Sheets)
+                leucocytes: document.getElementById('leucocytes')?.value || '',
+                globulesRouges: document.getElementById('globules-rouges')?.value || '',
+                hemoglobine: document.getElementById('hemoglobine')?.value || '',
+                hematocrite: document.getElementById('hematocrite')?.value || '',
+                vgm: document.getElementById('vgm')?.value || '',
+                tcmh: document.getElementById('tcmh')?.value || '',
+                ccmh: document.getElementById('ccmh')?.value || '',
+                plaquettes: document.getElementById('plaquettes')?.value || '',
+                pnn: document.getElementById('pnn')?.value || '',
+                pne: document.getElementById('pne')?.value || '',
+                pnb: document.getElementById('pnb')?.value || '',
+                lymphocytes: document.getElementById('lymphocytes')?.value || '',
+                monocytes: document.getElementById('monocytes')?.value || '',
+                hematologieComments: document.getElementById('hematologie-comments')?.value || '',
+
+                // Parasitologie - Paludisme et Dengue
+                paluResult: document.getElementById('palu-result').value,
+                paluComments: document.getElementById('palu-comments').value,
+                showPaluInReport: document.getElementById('show-palu-in-report').checked,
+                showDengueInReport: document.getElementById('show-dengue-in-report').checked,
+                showHivInReport: document.getElementById('show-hiv-in-report').checked,
+
+                // Immuno-Hématologie - Groupe Sanguin
+                groupeSanguinResult: document.getElementById('groupe-sanguin-result').value,
+                groupeSanguinComments: document.getElementById('groupe-sanguin-comments').value,
+
+                // Sérologie Infectieuse - HIV
+                hivResult: document.getElementById('hiv-result').value,
+                hivComments: document.getElementById('hiv-comments').value,
+
+                // Bilan Sanguin
+                glycemieResult: document.getElementById('glycemie-result').value,
+                glycemieAntecedent: document.getElementById('glycemie-antecedent').value,
+                ureeResult: document.getElementById('uree-result').value,
+                ureeAntecedent: document.getElementById('uree-antecedent').value,
+                creatinineResult: document.getElementById('creatinine-result').value,
+                creatinineAntecedent: document.getElementById('creatinine-antecedent').value,
+                asatResult: document.getElementById('asat-result').value,
+                asatAntecedent: document.getElementById('asat-antecedent').value,
+                alatResult: document.getElementById('alat-result').value,
+                alatAntecedent: document.getElementById('alat-antecedent').value,
+                ggtResult: document.getElementById('ggt-result').value,
+                ggtAntecedent: document.getElementById('ggt-antecedent').value,
+                cholesterolResult: document.getElementById('cholesterol-result').value,
+                cholesterolAntecedent: document.getElementById('cholesterol-antecedent').value,
+                triglyceridesResult: document.getElementById('triglycerides-result').value,
+                triglyceridesAntecedent: document.getElementById('triglycerides-antecedent').value,
+                hdlResult: document.getElementById('hdl-result').value,
+                hdlAntecedent: document.getElementById('hdl-antecedent').value,
+                ldlResult: document.getElementById('ldl-result').value,
+                ldlAntecedent: document.getElementById('ldl-antecedent').value,
+                acideUriqueResult: document.getElementById('acide-urique-result').value,
+                acideUriqueAntecedent: document.getElementById('acide-urique-antecedent').value,
+                crpResult: document.getElementById('crp-result').value,
+                crpAntecedent: document.getElementById('crp-antecedent').value,
+                
+                // Électrolytes
+                sodiumResult: document.getElementById('sodium-result')?.value || '',
+                sodiumAntecedent: document.getElementById('sodium-antecedent')?.value || '',
+                potassiumResult: document.getElementById('potassium-result')?.value || '',
+                potassiumAntecedent: document.getElementById('potassium-antecedent')?.value || '',
+                chloreResult: document.getElementById('chlore-result')?.value || '',
+                chloreAntecedent: document.getElementById('chlore-antecedent')?.value || '',
+                
+                biochimieComments: document.getElementById('biochimie-comments').value,
+
+                // Valeurs absolues (Formule Leucocytaire)
+                pnnAbsolue: document.getElementById('pnn-absolue')?.value || '',
+                pneAbsolue: document.getElementById('pne-absolue')?.value || '',
+                pnbAbsolue: document.getElementById('pnb-absolue')?.value || '',
+                lymphocytesAbsolue: document.getElementById('lymphocytes-absolue')?.value || '',
+                monocytesAbsolue: document.getElementById('monocytes-absolue')?.value || '',
+
+                // Goutte Épaisse
+                goutteEpaisseResult: document.getElementById('goutte-epaisse-result')?.value || '',
+                goutteEpaisseConclusion: document.getElementById('goutte-epaisse-conclusion')?.value || '',
+
+                // Sérologie des Arboviroses
+                dengueIggResult: document.getElementById('dengue-igg-result')?.value || '',
+                dengueIgmResult: document.getElementById('dengue-igm-result')?.value || '',
+                dengueAntigeneResult: document.getElementById('dengue-antigene-result')?.value || '',
+                serologieDengueConclusion: document.getElementById('serologie-dengue-conclusion')?.value || '',
+
+                // Examens Spécialisés
+                procalcitonineResult: document.getElementById('procalcitonine-result')?.value || '',
+                procalcitonineAntecedent: document.getElementById('procalcitonine-antecedent')?.value || ''
+            };
+
+            // Récupérer les images (si disponibles)
+            // Images supprimées des nouvelles sections pour simplifier l'interface
+
+            console.log('=== FORM DATA FINAL ===');
+            console.log('dateExport final:', formData.dateExport);
+            console.log('patientNom:', formData.patientNom);
+            console.log('patientPrenom:', formData.patientPrenom);
+            
+            return formData;
+        }
+
+        // Fonction pour calculer l'âge à partir de la date de naissance
+        function calculateAge(birthDateStr) {
+            if (!birthDateStr) return '';
+
+            // Format attendu: JJ/MM/AAAA ou JJ-MM-AAAA
+            let parts;
+            if (birthDateStr.includes('/')) {
+                parts = birthDateStr.split('/');
+            } else if (birthDateStr.includes('-')) {
+                parts = birthDateStr.split('-');
+            } else {
+                return '';
+            }
+
+            if (parts.length !== 3) return '';
+
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // Les mois commencent à 0 en JavaScript
+            let year = parseInt(parts[2], 10);
+
+            // Vérification des valeurs numériques
+            if (isNaN(day) || isNaN(month) || isNaN(year)) return '';
+
+            // Validation des plages de valeurs
+            if (day < 1 || day > 31 || month < 0 || month > 11) return '';
+
+            // Gestion des années à 2 chiffres
+            if (year < 100) {
+                // Pour les années à 2 chiffres, on considère:
+                // 00-49 → 2000-2049
+                // 50-99 → 1950-1999
+                year = year < 50 ? 2000 + year : 1900 + year;
+            }
+
+            // Vérification de l'année
+            const currentYear = new Date().getFullYear();
+            if (year < 1900 || year > currentYear) return '';
+
+            // Création de l'objet date
+            const birthDate = new Date(year, month, day);
+
+            // Vérification que la date est valide (le jour du mois existe)
+            if (birthDate.getDate() !== day) return '';
+
+            // Vérification que la date n'est pas dans le futur
+            const today = new Date();
+            if (birthDate > today) return '';
+
+            // Calcul de l'âge
+            let age = today.getFullYear() - birthDate.getFullYear();
+
+            // Ajustement si l'anniversaire n'est pas encore passé cette année
+            if (today.getMonth() < birthDate.getMonth() ||
+                (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            // Vérification que l'âge est raisonnable
+            if (age < 0 || age > 120) return '';
+
+            return age.toString();
+        }
+
+        // Fonction pour remplir le formulaire avec les données sauvegardées
+        function fillFormWithSavedData() {
+            console.log('Tentative de chargement des données sauvegardées');
+            const savedData = localStorage.getItem('formData');
+            if (!savedData) {
+                console.log('Aucune donnée sauvegardée trouvée');
+                return;
+            }
+
+            try {
+                const formData = JSON.parse(savedData);
+                console.log('Données chargées:', formData);
+
+                // Ajouter un événement pour calculer l'âge automatiquement quand la date de naissance change
+                const dobInput = document.getElementById('patient-dob');
+                if (dobInput) {
+                    dobInput.addEventListener('change', function () {
+                        const age = calculateAge(this.value);
+                        if (age) {
+                            document.getElementById('patient-age').value = age;
+                        }
+                    });
+                    // Déclencher l'événement change pour calculer l'âge immédiatement
+                    if (dobInput.value) {
+                        const event = new Event('change');
+                        dobInput.dispatchEvent(event);
+                    }
+                }
+
+                // Remplir les champs du patient
+                if (formData.patientNom) document.getElementById('patient-name').value = formData.patientNom;
+                if (formData.patientPrenom) document.getElementById('patient-firstname').value = formData.patientPrenom;
+                if (formData.patientAge) document.getElementById('patient-age').value = formData.patientAge;
+                if (formData.patientSexe) document.getElementById('patient-gender').value = formData.patientSexe;
+                if (formData.patientDateNaissance) document.getElementById('patient-dob').value = formData.patientDateNaissance;
+                if (formData.patientAdresse) document.getElementById('patient-address').value = formData.patientAdresse;
+                if (formData.prescripteur) document.getElementById('prescripteur').value = formData.prescripteur;
+                if (formData.datePrelevement) document.getElementById('sample-date').value = formData.datePrelevement;
+                if (formData.typeEchantillon) document.getElementById('sample-type').value = formData.typeEchantillon;
+                if (formData.notesSupplementaires) document.getElementById('patient-notes').value = formData.notesSupplementaires;
+
+                // Remplir les champs d'hématologie
+                if (formData.leucocytes) document.getElementById('leucocytes').value = formData.leucocytes;
+                if (formData.leucocytesAntecedent) document.getElementById('leucocytes-antecedent').value = formData.leucocytesAntecedent;
+                if (formData.globulesRouges) document.getElementById('globules-rouges').value = formData.globulesRouges;
+                if (formData.globulesRougesAntecedent) document.getElementById('globules-rouges-antecedent').value = formData.globulesRougesAntecedent;
+                if (formData.hemoglobine) document.getElementById('hemoglobine').value = formData.hemoglobine;
+                if (formData.hemoglobineAntecedent) document.getElementById('hemoglobine-antecedent').value = formData.hemoglobineAntecedent;
+                if (formData.hematocrite) document.getElementById('hematocrite').value = formData.hematocrite;
+                if (formData.hematocriteAntecedent) document.getElementById('hematocrite-antecedent').value = formData.hematocriteAntecedent;
+                if (formData.vgm) document.getElementById('vgm').value = formData.vgm;
+                if (formData.vgmAntecedent) document.getElementById('vgm-antecedent').value = formData.vgmAntecedent;
+                if (formData.tcmh) document.getElementById('tcmh').value = formData.tcmh;
+                if (formData.tcmhAntecedent) document.getElementById('tcmh-antecedent').value = formData.tcmhAntecedent;
+                if (formData.ccmh) document.getElementById('ccmh').value = formData.ccmh;
+                if (formData.ccmhAntecedent) document.getElementById('ccmh-antecedent').value = formData.ccmhAntecedent;
+                if (formData.plaquettes) document.getElementById('plaquettes').value = formData.plaquettes;
+                if (formData.plaquettesAntecedent) document.getElementById('plaquettes-antecedent').value = formData.plaquettesAntecedent;
+                if (formData.pnn) document.getElementById('pnn').value = formData.pnn;
+                if (formData.pnnAntecedent) document.getElementById('pnn-antecedent').value = formData.pnnAntecedent;
+                if (formData.pne) document.getElementById('pne').value = formData.pne;
+                if (formData.pneAntecedent) document.getElementById('pne-antecedent').value = formData.pneAntecedent;
+                if (formData.pnb) document.getElementById('pnb').value = formData.pnb;
+                if (formData.pnbAntecedent) document.getElementById('pnb-antecedent').value = formData.pnbAntecedent;
+                if (formData.lymphocytes) document.getElementById('lymphocytes').value = formData.lymphocytes;
+                if (formData.lymphocytesAntecedent) document.getElementById('lymphocytes-antecedent').value = formData.lymphocytesAntecedent;
+                if (formData.monocytes) document.getElementById('monocytes').value = formData.monocytes;
+                if (formData.monocytesAntecedent) document.getElementById('monocytes-antecedent').value = formData.monocytesAntecedent;
+                if (formData.hematologieComments) document.getElementById('hematologie-comments').value = formData.hematologieComments;
+
+                // Parasitologie - Paludisme et Dengue
+                if (formData.paluResult) document.getElementById('palu-result').value = formData.paluResult;
+                if (formData.paluComments) document.getElementById('palu-comments').value = formData.paluComments;
+
+                if (formData.dengueResult) document.getElementById('dengue-result').value = formData.dengueResult;
+                if (formData.dengueComments) document.getElementById('dengue-comments').value = formData.dengueComments;
+
+                // Immuno-Hématologie - Groupe Sanguin
+                if (formData.groupeSanguinResult) document.getElementById('groupe-sanguin-result').value = formData.groupeSanguinResult;
+                if (formData.groupeSanguinComments) document.getElementById('groupe-sanguin-comments').value = formData.groupeSanguinComments;
+
+                // Sérologie Infectieuse - HIV
+                if (formData.hivResult) document.getElementById('hiv-result').value = formData.hivResult;
+                if (formData.hivComments) document.getElementById('hiv-comments').value = formData.hivComments;
+
+                // Bilan Sanguin
+                if (formData.glycemieResult) document.getElementById('glycemie-result').value = formData.glycemieResult;
+                if (formData.glycemieAntecedent) document.getElementById('glycemie-antecedent').value = formData.glycemieAntecedent;
+                if (formData.ureeResult) document.getElementById('uree-result').value = formData.ureeResult;
+                if (formData.ureeAntecedent) document.getElementById('uree-antecedent').value = formData.ureeAntecedent;
+                if (formData.creatinineResult) document.getElementById('creatinine-result').value = formData.creatinineResult;
+                if (formData.creatinineAntecedent) document.getElementById('creatinine-antecedent').value = formData.creatinineAntecedent;
+                if (formData.asatResult) document.getElementById('asat-result').value = formData.asatResult;
+                if (formData.asatAntecedent) document.getElementById('asat-antecedent').value = formData.asatAntecedent;
+                if (formData.alatResult) document.getElementById('alat-result').value = formData.alatResult;
+                if (formData.alatAntecedent) document.getElementById('alat-antecedent').value = formData.alatAntecedent;
+                if (formData.ggtResult) document.getElementById('ggt-result').value = formData.ggtResult;
+                if (formData.ggtAntecedent) document.getElementById('ggt-antecedent').value = formData.ggtAntecedent;
+                if (formData.cholesterolResult) document.getElementById('cholesterol-result').value = formData.cholesterolResult;
+                if (formData.cholesterolAntecedent) document.getElementById('cholesterol-antecedent').value = formData.cholesterolAntecedent;
+                if (formData.triglyceridesResult) document.getElementById('triglycerides-result').value = formData.triglyceridesResult;
+                if (formData.triglyceridesAntecedent) document.getElementById('triglycerides-antecedent').value = formData.triglyceridesAntecedent;
+                if (formData.hdlResult) document.getElementById('hdl-result').value = formData.hdlResult;
+                if (formData.hdlAntecedent) document.getElementById('hdl-antecedent').value = formData.hdlAntecedent;
+                if (formData.ldlResult) document.getElementById('ldl-result').value = formData.ldlResult;
+                if (formData.ldlAntecedent) document.getElementById('ldl-antecedent').value = formData.ldlAntecedent;
+                if (formData.acideUriqueResult) document.getElementById('acide-urique-result').value = formData.acideUriqueResult;
+                if (formData.acideUriqueAntecedent) document.getElementById('acide-urique-antecedent').value = formData.acideUriqueAntecedent;
+                if (formData.crpResult) document.getElementById('crp-result').value = formData.crpResult;
+                if (formData.crpAntecedent) document.getElementById('crp-antecedent').value = formData.crpAntecedent;
+                if (formData.biochimieComments) document.getElementById('biochimie-comments').value = formData.biochimieComments;
+
+                console.log('Formulaire rempli avec les données sauvegardées');
+            } catch (error) {
+                console.error('Erreur lors du chargement des données:', error);
+            }
+        }
+
+        // Fonction pour sauvegarder dans MySQL
+        async function saveToMySQL(formData) {
+            try {
+                console.log('Tentative de sauvegarde MySQL...');
+
+                const response = await fetch('./api/save_analysis.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log(' Sauvegarde MySQL réussie:', result);
+                    return { success: true, data: result.data };
+                } else {
+                    console.error('❌ Erreur MySQL:', result.message);
+                    return { success: false, error: result.message };
+                }
+
+            } catch (error) {
+                console.error('❌ Erreur de connexion MySQL:', error);
+                return { success: false, error: 'Erreur de connexion à la base de données locale' };
+            }
+        }
+
+        // Fonction pour sauvegarder dans Google Sheets (existante)
+        async function saveToGoogleSheets(formData) {
+            try {
+                console.log('Tentative de sauvegarde Google Sheets...');
+
+                const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9f3iPsqsiIDzmkjBMZJ5qL1_5Nh5kxP4UDfXVgnqFWxOexgF_D_DDMcOfE2_961QI/exec';
+
+                // Ajouter les informations de mode édition aux données
+                const dataToSend = {
+                    ...formData,
+                    isEditMode: isEditMode,
+                    editingPatientInfo: editingPatientInfo
+                };
+
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dataToSend)
+                });
+
+                console.log(' Sauvegarde Google Sheets envoyée');
+                
+                // Réinitialiser le mode édition après la sauvegarde
+                if (isEditMode) {
+                    console.log('Mode édition - Mise à jour de la ligne existante');
+                    resetEditMode();
+                }
+                
+                return { success: true };
+
+            } catch (error) {
+                console.error('❌ Erreur de connexion Google Sheets:', error);
+                return { success: false, error: 'Erreur de connexion à Google Sheets' };
+            }
+        }
+
+        // Fonction pour afficher les notifications
+        function showNotification(message, type = 'info') {
+            // Créer l'élément de notification s'il n'existe pas
+            let notificationContainer = document.getElementById('notification-container');
+            if (!notificationContainer) {
+                notificationContainer = document.createElement('div');
+                notificationContainer.id = 'notification-container';
+                notificationContainer.style.cssText = `
+                                position: fixed;
+                                top: 20px;
+                                right: 20px;
+                                z-index: 9999;
+                                max-width: 400px;
+                            `;
+                document.body.appendChild(notificationContainer);
+            }
+
+            // Créer la notification
+            const notification = document.createElement('div');
+            const alertClass = type === 'success' ? 'alert-success' :
+                type === 'error' ? 'alert-danger' :
+                    type === 'warning' ? 'alert-warning' : 'alert-info';
+
+            notification.className = `alert ${alertClass} alert-dismissible fade show`;
+            notification.innerHTML = `
+                            ${message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        `;
+
+            notificationContainer.appendChild(notification);
+
+            // Auto-supprimer après 5 secondes
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+
+        // Fonction principale de sauvegarde hybride
+        async function saveAnalysisHybrid(formData) {
+            console.log('🚀 Début de la sauvegarde hybride...');
+
+            // Afficher un indicateur de chargement
+            const saveButton = document.getElementById('saveAllButton');
+            const originalText = saveButton.textContent;
+            saveButton.disabled = true;
+            saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+
+            let mysqlResult = { success: false };
+            let googleSheetsResult = { success: false };
+
+            try {
+                // 1. Sauvegarder dans localStorage (immédiat)
+                localStorage.setItem('formData', JSON.stringify(formData));
+                console.log(' Sauvegarde localStorage réussie');
+
+                // 2. Sauvegarder dans MySQL (prioritaire)
+                mysqlResult = await saveToMySQL(formData);
+
+                // 3. Sauvegarder dans Google Sheets (secondaire)
+                googleSheetsResult = await saveToGoogleSheets(formData);
+
+                // Analyser les résultats
+                if (mysqlResult.success && googleSheetsResult.success) {
+                    showNotification('Donnees sauvegardees avec succes dans MySQL et Google Sheets !', 'success');
+                    console.log(' Sauvegarde hybride complète réussie');
+                } else if (mysqlResult.success) {
+                    showNotification('Donnees sauvegardees dans MySQL.', 'success');
+                    console.log(' Sauvegarde MySQL réussie');
+                } else if (googleSheetsResult.success) {
+                    showNotification('Echec MySQL : ' + (mysqlResult.error || 'Erreur inconnue') + '. Donnees sauvegardees dans Google Sheets.', 'warning');
+                    console.log(' Sauvegarde Google Sheets réussie, MySQL échoué');
+                } else {
+                    showNotification('Echec de sauvegarde dans MySQL et Google Sheets. Donnees conservees localement.', 'error');
+                    console.error('❌ Échec complet de la sauvegarde hybride');
+                }
+
+                // Attendre un peu avant la redirection pour que l'utilisateur voie la notification
+                setTimeout(() => {
+                    console.log('🔄 Redirection vers rapport.html');
+                    window.location.href = 'rapport.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('❌ Erreur générale lors de la sauvegarde:', error);
+                showNotification('Erreur lors de la sauvegarde : ' + error.message, 'error');
+            } finally {
+                // Restaurer le bouton
+                saveButton.disabled = false;
+                saveButton.textContent = originalText;
+            }
+        }
+
+        // Initialiser le bouton d'enregistrement et charger les données sauvegardées
+        document.addEventListener('DOMContentLoaded', function () {
+            // Charger les données sauvegardées
+            fillFormWithSavedData();
+
+            // Configurer le bouton d'enregistrement
+            const saveButton = document.getElementById('saveAllButton');
+            if (saveButton) {
+                console.log('Bouton Enregistrer trouvé et configuré');
+                saveButton.addEventListener('click', function () {
+                    console.log('Bouton Enregistrer cliqué');
+
+                    // Collecter les données
+                    const formData = collectFormData();
+                    console.log('Données collectées:', formData);
+
+                    // Lancer la sauvegarde hybride
+                    saveAnalysisHybrid(formData);
+                });
+            } else {
+                console.error('Bouton Enregistrer non trouvé !');
+            }
+
+        });
+
+        // Fonction pour calculer l'âge à partir de la date de naissance
+        function calculateAge() {
+            const dobInput = document.getElementById('patient-dob');
+            const ageInput = document.getElementById('patient-age');
+
+            if (dobInput.value) {
+                const dob = new Date(dobInput.value);
+                const today = new Date();
+
+                let age = today.getFullYear() - dob.getFullYear();
+                const monthDiff = today.getMonth() - dob.getMonth();
+
+                // Si le mois de naissance n'est pas encore arrivé cette année ou 
+                // si c'est le même mois mais que le jour n'est pas encore arrivé
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+
+                ageInput.value = age;
+            } else {
+                ageInput.value = '';
+            }
+        }
+
+        // ===== DECISION TREE FUNCTIONS =====
+        // Variable globale pour stocker les données des patients
+        let existingPatientsData = [];
+        
+        // Variable pour suivre le mode d'édition
+        let isEditMode = false;
+        let editingPatientInfo = null; // Stocke {nom, prenom, dateExport} pour identifier la ligne à modifier
+
+        // Fonction pour charger les patients existants depuis Google Sheets
+        async function loadExistingPatients() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const refreshBtn = document.getElementById('refresh-patients-btn');
+            const selectElement = document.getElementById('existing-patient-select');
+            
+            try {
+                // Afficher l'indicateur de chargement
+                loadingIndicator.style.display = 'block';
+                refreshBtn.disabled = true;
+                refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...';
+                
+                // URL du Google Apps Script pour récupérer les données
+                const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9f3iPsqsiIDzmkjBMZJ5qL1_5Nh5kxP4UDfXVgnqFWxOexgF_D_DDMcOfE2_961QI/exec';
+                
+                // Faire la requête avec le paramètre action=getData
+                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getData', {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des données');
+                }
+                
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data && data.data.length > 0) {
+                    existingPatientsData = data.data;
+                    
+                    // Vider le select et ajouter les options
+                    selectElement.innerHTML = '<option value="" selected disabled>Sélectionnez un patient</option>';
+                    
+                    data.data.forEach((patient, index) => {
+                        const option = document.createElement('option');
+                        option.value = index;
+                        // Format: "NOM Prénom - Date d'export"
+                        const displayText = `${patient.patientNom || ''} ${patient.patientPrenom || ''} - ${patient.dateExport || 'Date inconnue'}`;
+                        option.textContent = displayText;
+                        selectElement.appendChild(option);
+                    });
+                    
+                    // Activer le select et le bouton de chargement
+                    selectElement.disabled = false;
+                    
+                    showNotification(`${data.data.length} dossier(s) charge(s) avec succes`, 'success');
+                } else {
+                    selectElement.innerHTML = '<option value="" selected disabled>Aucun dossier trouvé</option>';
+                    showNotification('Aucun dossier trouve dans la base de donnees', 'info');
+                }
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement des patients:', error);
+                selectElement.innerHTML = '<option value="" selected disabled>Erreur de chargement</option>';
+                showNotification('Erreur lors du chargement des dossiers: ' + error.message, 'error');
+            } finally {
+                // Masquer l'indicateur de chargement
+                loadingIndicator.style.display = 'none';
+                refreshBtn.disabled = false;
+                refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Actualiser';
+            }
+        }
+
+        // Fonction pour activer/désactiver le bouton "Charger" selon la sélection
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectElement = document.getElementById('existing-patient-select');
+            const loadBtn = document.getElementById('load-patient-btn');
+            
+            if (selectElement && loadBtn) {
+                selectElement.addEventListener('change', function() {
+                    loadBtn.disabled = !this.value;
+                });
+            }
+        });
+
+        // Fonction pour charger les données du patient sélectionné dans le formulaire
+        function loadSelectedPatient() {
+            const selectElement = document.getElementById('existing-patient-select');
+            const selectedIndex = selectElement.value;
+            
+            if (selectedIndex === '' || !existingPatientsData[selectedIndex]) {
+                showNotification('Veuillez selectionner un patient', 'warning');
+                return;
+            }
+            
+            const patientData = existingPatientsData[selectedIndex];
+            
+            try {
+                // Remplir les informations du patient
+                if (patientData.patientNom) document.getElementById('patient-name').value = patientData.patientNom;
+                if (patientData.patientPrenom) document.getElementById('patient-firstname').value = patientData.patientPrenom;
+                if (patientData.patientAge) document.getElementById('patient-age').value = patientData.patientAge;
+                if (patientData.patientSexe) document.getElementById('patient-gender').value = patientData.patientSexe;
+                if (patientData.patientDateNaissance) document.getElementById('patient-dob').value = patientData.patientDateNaissance;
+                if (patientData.patientAdresse) document.getElementById('patient-address').value = patientData.patientAdresse;
+                if (patientData.prescripteur) document.getElementById('prescripteur').value = patientData.prescripteur;
+                if (patientData.datePrelevement) document.getElementById('sample-date').value = patientData.datePrelevement;
+                if (patientData.typeEchantillon) document.getElementById('sample-type').value = patientData.typeEchantillon;
+                if (patientData.notesSupplementaires) document.getElementById('patient-notes').value = patientData.notesSupplementaires;
+
+                // Remplir les données d'hématologie
+                if (patientData.leucocytes) document.getElementById('leucocytes').value = patientData.leucocytes;
+                if (patientData.globulesRouges) document.getElementById('globules-rouges').value = patientData.globulesRouges;
+                if (patientData.hemoglobine) document.getElementById('hemoglobine').value = patientData.hemoglobine;
+                if (patientData.hematocrite) document.getElementById('hematocrite').value = patientData.hematocrite;
+                if (patientData.vgm) document.getElementById('vgm').value = patientData.vgm;
+                if (patientData.tcmh) document.getElementById('tcmh').value = patientData.tcmh;
+                if (patientData.ccmh) document.getElementById('ccmh').value = patientData.ccmh;
+                if (patientData.plaquettes) document.getElementById('plaquettes').value = patientData.plaquettes;
+                if (patientData.pnn) document.getElementById('pnn').value = patientData.pnn;
+                if (patientData.pne) document.getElementById('pne').value = patientData.pne;
+                if (patientData.pnb) document.getElementById('pnb').value = patientData.pnb;
+                if (patientData.lymphocytes) document.getElementById('lymphocytes').value = patientData.lymphocytes;
+                if (patientData.monocytes) document.getElementById('monocytes').value = patientData.monocytes;
+                if (patientData.hematologieComments) document.getElementById('hematologie-comments').value = patientData.hematologieComments;
+
+                // Remplir les antécédents d'hématologie
+                if (patientData.leucocytesAntecedent) document.getElementById('leucocytes-antecedent').value = patientData.leucocytesAntecedent;
+                if (patientData.globulesRougesAntecedent) document.getElementById('globules-rouges-antecedent').value = patientData.globulesRougesAntecedent;
+                if (patientData.hemoglobineAntecedent) document.getElementById('hemoglobine-antecedent').value = patientData.hemoglobineAntecedent;
+                if (patientData.hematocriteAntecedent) document.getElementById('hematocrite-antecedent').value = patientData.hematocriteAntecedent;
+                if (patientData.vgmAntecedent) document.getElementById('vgm-antecedent').value = patientData.vgmAntecedent;
+                if (patientData.tcmhAntecedent) document.getElementById('tcmh-antecedent').value = patientData.tcmhAntecedent;
+                if (patientData.ccmhAntecedent) document.getElementById('ccmh-antecedent').value = patientData.ccmhAntecedent;
+                if (patientData.plaquettesAntecedent) document.getElementById('plaquettes-antecedent').value = patientData.plaquettesAntecedent;
+                if (patientData.pnnAntecedent) document.getElementById('pnn-antecedent').value = patientData.pnnAntecedent;
+                if (patientData.pneAntecedent) document.getElementById('pne-antecedent').value = patientData.pneAntecedent;
+                if (patientData.pnbAntecedent) document.getElementById('pnb-antecedent').value = patientData.pnbAntecedent;
+                if (patientData.lymphocytesAntecedent) document.getElementById('lymphocytes-antecedent').value = patientData.lymphocytesAntecedent;
+                if (patientData.monocytesAntecedent) document.getElementById('monocytes-antecedent').value = patientData.monocytesAntecedent;
+
+                // Remplir les valeurs absolues
+                if (patientData.pnnAbsolue) document.getElementById('pnn-absolue').value = patientData.pnnAbsolue;
+                if (patientData.pneAbsolue) document.getElementById('pne-absolue').value = patientData.pneAbsolue;
+                if (patientData.pnbAbsolue) document.getElementById('pnb-absolue').value = patientData.pnbAbsolue;
+                if (patientData.lymphocytesAbsolue) document.getElementById('lymphocytes-absolue').value = patientData.lymphocytesAbsolue;
+                if (patientData.monocytesAbsolue) document.getElementById('monocytes-absolue').value = patientData.monocytesAbsolue;
+
+                // Remplir les données de parasitologie
+                if (patientData.paluResult) {
+                    document.getElementById('palu-result').value = patientData.paluResult;
+                    toggleCommentaires('palu-result', 'palu-comments-container');
+                }
+                if (patientData.paluComments) document.getElementById('palu-comments').value = patientData.paluComments;
+
+                // Remplir les données d'immuno-hématologie
+                if (patientData.groupeSanguinResult) document.getElementById('groupe-sanguin-result').value = patientData.groupeSanguinResult;
+                if (patientData.groupeSanguinComments) document.getElementById('groupe-sanguin-comments').value = patientData.groupeSanguinComments;
+
+                // Remplir les données de sérologie infectieuse
+                if (patientData.hivResult) {
+                    document.getElementById('hiv-result').value = patientData.hivResult;
+                    toggleCommentaires('hiv-result', 'hiv-comments-container');
+                }
+                if (patientData.hivComments) document.getElementById('hiv-comments').value = patientData.hivComments;
+
+                // Remplir les données de biochimie
+                if (patientData.glycemieResult) document.getElementById('glycemie-result').value = patientData.glycemieResult;
+                if (patientData.glycemieAntecedent) document.getElementById('glycemie-antecedent').value = patientData.glycemieAntecedent;
+                if (patientData.ureeResult) document.getElementById('uree-result').value = patientData.ureeResult;
+                if (patientData.ureeAntecedent) document.getElementById('uree-antecedent').value = patientData.ureeAntecedent;
+                if (patientData.creatinineResult) document.getElementById('creatinine-result').value = patientData.creatinineResult;
+                if (patientData.creatinineAntecedent) document.getElementById('creatinine-antecedent').value = patientData.creatinineAntecedent;
+                if (patientData.asatResult) document.getElementById('asat-result').value = patientData.asatResult;
+                if (patientData.asatAntecedent) document.getElementById('asat-antecedent').value = patientData.asatAntecedent;
+                if (patientData.alatResult) document.getElementById('alat-result').value = patientData.alatResult;
+                if (patientData.alatAntecedent) document.getElementById('alat-antecedent').value = patientData.alatAntecedent;
+                if (patientData.ggtResult) document.getElementById('ggt-result').value = patientData.ggtResult;
+                if (patientData.ggtAntecedent) document.getElementById('ggt-antecedent').value = patientData.ggtAntecedent;
+                if (patientData.cholesterolResult) document.getElementById('cholesterol-result').value = patientData.cholesterolResult;
+                if (patientData.cholesterolAntecedent) document.getElementById('cholesterol-antecedent').value = patientData.cholesterolAntecedent;
+                if (patientData.triglyceridesResult) document.getElementById('triglycerides-result').value = patientData.triglyceridesResult;
+                if (patientData.triglyceridesAntecedent) document.getElementById('triglycerides-antecedent').value = patientData.triglyceridesAntecedent;
+                if (patientData.hdlResult) document.getElementById('hdl-result').value = patientData.hdlResult;
+                if (patientData.hdlAntecedent) document.getElementById('hdl-antecedent').value = patientData.hdlAntecedent;
+                if (patientData.ldlResult) document.getElementById('ldl-result').value = patientData.ldlResult;
+                if (patientData.ldlAntecedent) document.getElementById('ldl-antecedent').value = patientData.ldlAntecedent;
+                if (patientData.acideUriqueResult) document.getElementById('acide-urique-result').value = patientData.acideUriqueResult;
+                if (patientData.acideUriqueAntecedent) document.getElementById('acide-urique-antecedent').value = patientData.acideUriqueAntecedent;
+                if (patientData.crpResult) document.getElementById('crp-result').value = patientData.crpResult;
+                if (patientData.crpAntecedent) document.getElementById('crp-antecedent').value = patientData.crpAntecedent;
+                if (patientData.biochimieComments) document.getElementById('biochimie-comments').value = patientData.biochimieComments;
+
+                // Remplir les électrolytes si disponibles
+                const sodiumResult = document.getElementById('sodium-result');
+                if (sodiumResult && patientData.sodiumResult) sodiumResult.value = patientData.sodiumResult;
+                const sodiumAntecedent = document.getElementById('sodium-antecedent');
+                if (sodiumAntecedent && patientData.sodiumAntecedent) sodiumAntecedent.value = patientData.sodiumAntecedent;
+                const potassiumResult = document.getElementById('potassium-result');
+                if (potassiumResult && patientData.potassiumResult) potassiumResult.value = patientData.potassiumResult;
+                const potassiumAntecedent = document.getElementById('potassium-antecedent');
+                if (potassiumAntecedent && patientData.potassiumAntecedent) potassiumAntecedent.value = patientData.potassiumAntecedent;
+                const chloreResult = document.getElementById('chlore-result');
+                if (chloreResult && patientData.chloreResult) chloreResult.value = patientData.chloreResult;
+                const chloreAntecedent = document.getElementById('chlore-antecedent');
+                if (chloreAntecedent && patientData.chloreAntecedent) chloreAntecedent.value = patientData.chloreAntecedent;
+
+                // Remplir les autres examens si disponibles
+                const goutteEpaisseResult = document.getElementById('goutte-epaisse-result');
+                if (goutteEpaisseResult && patientData.goutteEpaisseResult) goutteEpaisseResult.value = patientData.goutteEpaisseResult;
+                const goutteEpaisseConclusion = document.getElementById('goutte-epaisse-conclusion');
+                if (goutteEpaisseConclusion && patientData.goutteEpaisseConclusion) goutteEpaisseConclusion.value = patientData.goutteEpaisseConclusion;
+
+                const dengueIggResult = document.getElementById('dengue-igg-result');
+                if (dengueIggResult && patientData.dengueIggResult) dengueIggResult.value = patientData.dengueIggResult;
+                const dengueIgmResult = document.getElementById('dengue-igm-result');
+                if (dengueIgmResult && patientData.dengueIgmResult) dengueIgmResult.value = patientData.dengueIgmResult;
+                const dengueAntigeneResult = document.getElementById('dengue-antigene-result');
+                if (dengueAntigeneResult && patientData.dengueAntigeneResult) dengueAntigeneResult.value = patientData.dengueAntigeneResult;
+                const serologieDengueConclusion = document.getElementById('serologie-dengue-conclusion');
+                if (serologieDengueConclusion && patientData.serologieDengueConclusion) serologieDengueConclusion.value = patientData.serologieDengueConclusion;
+
+                const procalcitonineResult = document.getElementById('procalcitonine-result');
+                if (procalcitonineResult && patientData.procalcitonineResult) procalcitonineResult.value = patientData.procalcitonineResult;
+                const procalcitonineAntecedent = document.getElementById('procalcitonine-antecedent');
+                if (procalcitonineAntecedent && patientData.procalcitonineAntecedent) procalcitonineAntecedent.value = patientData.procalcitonineAntecedent;
+
+                // Activer le mode édition
+                isEditMode = true;
+                editingPatientInfo = {
+                    nom: patientData.patientNom,
+                    prenom: patientData.patientPrenom,
+                    dateExport: patientData.dateExport
+                };
+                
+                console.log('=== MODE EDITION ACTIVE ===');
+                console.log('isEditMode:', isEditMode);
+                console.log('editingPatientInfo:', JSON.stringify(editingPatientInfo));
+                console.log('dateExport from patient data:', patientData.dateExport);
+                
+                // Afficher l'indicateur de mode édition
+                const editModeIndicator = document.getElementById('edit-mode-indicator');
+                if (editModeIndicator) {
+                    editModeIndicator.style.display = 'block';
+                }
+                
+                showNotification('Dossier patient charge avec succes - Mode modification active', 'success');
+                
+                // Ouvrir automatiquement la section "Informations Patient"
+                const patientSection = document.getElementById('collapsePatient');
+                if (patientSection && !patientSection.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(patientSection, {
+                        toggle: true
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement des données du patient:', error);
+                showNotification('Erreur lors du chargement des donnees: ' + error.message, 'error');
+            }
+        }
+        
+        // Fonction pour réinitialiser le mode édition
+        function resetEditMode() {
+            isEditMode = false;
+            editingPatientInfo = null;
+            const editModeIndicator = document.getElementById('edit-mode-indicator');
+            if (editModeIndicator) {
+                editModeIndicator.style.display = 'none';
+            }
+        }
+    </script>
